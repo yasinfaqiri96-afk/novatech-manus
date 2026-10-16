@@ -36,6 +36,16 @@ const services = [
     image: "/images/services/graphic-design-avatar.webp",
     alt: "آواتار سه بعدی پالت طراحی برای خدمت طراحی گرافیک",
   },
+  {
+    href: "/contact?service=domain-hosting",
+    number: "۰۴",
+    title: "دامنه و هاستینگ",
+    shortTitle: "زیرساخت همیشه آماده",
+    description:
+      "ثبت دامنه، میزبانی سریع و زیرساختی امن که سایت و سرویس‌های شما را همیشه در دسترس نگه می‌دارد",
+    image: "/images/services/domain-hosting-avatar.webp",
+    alt: "آواتار سه بعدی سرور و کره شبکه برای خدمت دامنه و هاستینگ",
+  },
 ] as const;
 
 export default function HomeServicesScroll() {
