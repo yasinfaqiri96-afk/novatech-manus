@@ -7,6 +7,10 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    server: {
+      host: "0.0.0.0",
+      allowedHosts: [".us3.manus.computer"],
+    },
     resolve: {
       alias: {
         "next/link": path.resolve(__dirname, "src/shims/next-link.tsx"),
