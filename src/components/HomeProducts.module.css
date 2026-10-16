@@ -141,19 +141,15 @@
   justify-content: space-between;
   overflow: hidden;
   padding: clamp(1rem, 2.2vw, 1.75rem);
-  background: #123d43;
+  background: #efeeeb;
 }
 
 .mashal .visual {
-  background:
-    radial-gradient(circle at 15% 0%, rgb(103 224 203 / 30%), transparent 35%),
-    linear-gradient(145deg, #163e45 0%, #0f292f 100%);
+  background: #efeeeb;
 }
 
 .nazer .visual {
-  background:
-    radial-gradient(circle at 84% 11%, rgb(103 224 203 / 30%), transparent 32%),
-    linear-gradient(145deg, #1b6968 0%, #113b42 100%);
+  background: #efeeeb;
 }
 
 .visualMeta,
@@ -163,7 +159,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: rgb(255 255 255 / 63%);
+  color: #5f7077;
   font-size: 0.7rem;
 }
 
@@ -191,19 +187,18 @@
 
 .screen {
   display: block;
-  width: 112%;
+  width: 116%;
   max-width: none;
-  margin: auto -6% 0;
-  border: 1px solid rgb(255 255 255 / 18%);
-  border-bottom: 0;
-  border-radius: 0.8rem 0.8rem 0 0;
-  box-shadow: 0 20px 46px -24px rgb(0 0 0 / 65%);
+  margin: auto -8% 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .visualCaption {
   gap: 0.45rem;
   justify-content: flex-start;
-  color: rgb(255 255 255 / 76%);
+  color: #53686d;
 }
 
 .visualCaption svg {
