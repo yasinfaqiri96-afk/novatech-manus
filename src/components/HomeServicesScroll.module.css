@@ -1,37 +1,43 @@
-/*
- * Services deck.
- *
- * The section is pinned for its own scroll length and the cards share one
- * clipped box, so exactly one card is ever on screen: the next slides up over
- * the current one and the covered one recedes behind it. Inside a card there is
- * no empty dark field either — the artwork fills its whole column edge to edge,
- * and the dark surface only carries the text.
- */
-
 .section {
   width: 100%;
-  background: #ffffff;
+  overflow: hidden;
+  background: radial-gradient(circle at 12% 10%, rgb(84 220 198 / 8%), transparent 22rem), #f8fbfa;
   direction: rtl;
 }
 
 .track {
   position: relative;
   width: 100%;
+  height: 320vh;
 }
 
 .sticky {
+  position: sticky;
+  top: 0;
   display: flex;
+  height: 100vh;
+  height: 100svh;
+  min-height: 40rem;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 5vw, 5rem);
+  padding: clamp(5rem, 10vh, 7.5rem) clamp(1rem, 5vw, 5rem) clamp(2rem, 5vh, 4rem);
 }
 
 .heading {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto clamp(1.5rem, 4vh, 2.5rem);
+  margin: 0 auto clamp(1.4rem, 3.2vh, 2.3rem);
   text-align: center;
+}
+
+.kicker {
+  margin: 0 0 0.65rem;
+  color: #54a99f;
+  font-size: 0.63rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  direction: ltr;
 }
 
 .title {
@@ -40,7 +46,8 @@
   align-items: baseline;
   margin: 0;
   color: #111827;
-  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  letter-spacing: -0.04em;
 }
 
 .signature {
@@ -53,21 +60,42 @@
 
 .intro {
   max-width: 38rem;
-  margin: 0.9rem auto 0;
+  margin: 0.8rem auto 0;
   color: #64748b;
   font-size: 0.9rem;
   line-height: 1.95;
 }
 
+.scrollCue {
+  display: inline-flex;
+  gap: 0.55rem;
+  align-items: center;
+  margin-top: 0.85rem;
+  color: #8b9a9d;
+  font-size: 0.65rem;
+}
+
+.scrollCue span {
+  display: inline-block;
+  width: 2.6rem;
+  height: 1px;
+  background: #54dcc6;
+  box-shadow: 0 0 0 4px rgb(84 220 198 / 12%);
+}
+
 .stage {
   position: relative;
-  width: min(100%, 1080px);
-  height: clamp(340px, 46svh, 440px);
+  width: min(100%, 1120px);
+  height: clamp(360px, 51svh, 510px);
   margin: 0 auto;
-  /* Clips the card waiting below, so it cannot be seen before its turn. */
   overflow: hidden;
-  border-radius: 1.5rem;
-  box-shadow: 0 22px 55px rgb(15 23 42 / 20%);
+  perspective: 1400px;
+  border: 1px solid rgb(15 29 53 / 8%);
+  border-radius: 1.65rem;
+  box-shadow:
+    0 30px 75px -36px rgb(15 29 53 / 36%),
+    0 8px 28px -18px rgb(84 220 198 / 25%);
+  isolation: isolate;
 }
 
 .card {
@@ -77,23 +105,31 @@
   inset: 0;
   display: grid;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 10%);
-  border-radius: 1.5rem;
-  background: #111827;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 1.65rem;
+  background: #102f35;
   color: #ffffff;
-  grid-template-columns: 1.1fr 1fr;
-  transform-origin: 50% 70%;
+  grid-template-columns: 1.04fr 0.96fr;
+  transform-origin: center center;
+  backface-visibility: hidden;
   will-change: transform, opacity;
 }
 
-.card1 { background-color: #102c31; }
-.card2 { background-color: #161f2e; }
-.card3 { background-color: #26302f; }
+.card1 {
+  background: #102f35;
+}
+.card2 {
+  background: #152b39;
+}
+.card3 {
+  background: #253337;
+}
 
-/* The artwork owns its column completely: no dark margin around it. */
 .visual {
   position: relative;
   overflow: hidden;
+  min-width: 0;
+  background: #efeeeb;
 }
 
 .artwork {
@@ -108,43 +144,55 @@
   will-change: transform;
 }
 
-/* Hides the hard seam where the artwork meets the text surface. */
 .visualEdge {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    270deg,
-    rgb(17 24 39 / 55%) 0%,
-    rgb(17 24 39 / 0%) 26%
-  );
+  background: linear-gradient(270deg, transparent 60%, rgb(16 47 53 / 9%) 100%);
   pointer-events: none;
 }
 
 .content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  padding: clamp(1.5rem, 3vw, 2.75rem);
+  padding: clamp(1.6rem, 4vw, 3.5rem);
+  background:
+    radial-gradient(circle at 20% 18%, rgb(84 220 198 / 10%), transparent 15rem),
+    linear-gradient(145deg, rgb(16 47 53 / 97%), rgb(15 36 43 / 99%));
+}
+
+.card2 .content {
+  background:
+    radial-gradient(circle at 22% 18%, rgb(84 220 198 / 9%), transparent 15rem),
+    linear-gradient(145deg, rgb(21 43 57 / 97%), rgb(15 30 43 / 99%));
+}
+
+.card3 .content {
+  background:
+    radial-gradient(circle at 22% 18%, rgb(84 220 198 / 8%), transparent 15rem),
+    linear-gradient(145deg, rgb(37 51 55 / 97%), rgb(22 34 38 / 99%));
 }
 
 .indexRow {
   display: inline-flex;
   gap: 0.7rem;
   align-items: center;
-  margin: 0 0 0.9rem;
+  margin: 0 0 1rem;
 }
 
 .index {
   color: #54dcc6;
-  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-size: clamp(1.8rem, 2.8vw, 2.55rem);
   font-weight: 900;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.05em;
 }
 
 .progress {
-  padding: 0.18rem 0.55rem;
+  padding: 0.2rem 0.6rem;
   border: 1px solid rgb(255 255 255 / 22%);
   border-radius: 999px;
   color: rgb(255 255 255 / 62%);
@@ -162,9 +210,10 @@
 }
 
 .serviceTitle {
+  max-width: 23rem;
   margin: 0;
   color: #ffffff;
-  font-size: clamp(1.3rem, 2.1vw, 1.85rem);
+  font-size: clamp(1.35rem, 2.35vw, 2.1rem);
   font-weight: 800;
   line-height: 1.5;
   text-wrap: balance;
@@ -172,9 +221,9 @@
 
 .description {
   max-width: 24rem;
-  margin: 0.75rem 0 1.3rem;
+  margin: 0.8rem 0 1.45rem;
   color: rgb(255 255 255 / 72%);
-  font-size: clamp(0.83rem, 0.92vw, 0.9rem);
+  font-size: clamp(0.83rem, 0.92vw, 0.95rem);
   line-height: 2;
 }
 
@@ -182,8 +231,8 @@
   display: inline-flex;
   gap: 0.6rem;
   align-items: center;
-  min-height: 2.6rem;
-  padding: 0.55rem 1.3rem;
+  min-height: 2.7rem;
+  padding: 0.58rem 1.3rem;
   border: 1px solid rgb(255 255 255 / 55%);
   border-radius: 999px;
   color: #ffffff;
@@ -216,77 +265,59 @@
   transform: translateX(-0.22rem);
 }
 
-/* ---- pinned range ------------------------------------------------------ */
-
-@media (min-width: 768px) {
-  .track {
-    /* One screen of scroll per card, plus a beat to read the last one. */
-    height: 340vh;
-  }
-
-  .sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    height: 100svh;
-    padding-top: clamp(5rem, 11vh, 7rem);
-  }
-}
-
-/* ---- phone ------------------------------------------------------------- */
-
 @media (max-width: 767px) {
   .track {
     height: 300vh;
   }
 
   .sticky {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    padding-top: 5.5rem;
+    min-height: 0;
+    padding: 5.5rem 1rem 1.5rem;
   }
 
-  .stage {
-    height: clamp(380px, 56svh, 480px);
-    border-radius: 1.25rem;
+  .heading {
+    margin-bottom: 1.35rem;
   }
 
-  .card {
-    grid-template-columns: 1fr;
-    grid-template-rows: 44% 1fr;
-    border-radius: 1.25rem;
-  }
-
-  .visualEdge {
-    background: linear-gradient(
-      0deg,
-      rgb(17 24 39 / 65%) 0%,
-      rgb(17 24 39 / 0%) 34%
-    );
-  }
-
-  .content {
-    padding: 1.15rem 1.25rem 1.35rem;
-  }
-
-  .indexRow {
-    margin-bottom: 0.6rem;
-  }
-
-  .description {
-    margin: 0.55rem 0 1rem;
-    font-size: 0.84rem;
-    line-height: 1.9;
+  .kicker {
+    font-size: 0.55rem;
   }
 
   .intro {
     max-width: 22rem;
     font-size: 0.84rem;
   }
-}
 
-/* ---- reduced motion: plain stacked list -------------------------------- */
+  .scrollCue {
+    margin-top: 0.65rem;
+    font-size: 0.6rem;
+  }
+
+  .stage {
+    height: clamp(470px, 63svh, 600px);
+    border-radius: 1.25rem;
+  }
+
+  .card {
+    grid-template-columns: 1fr;
+    grid-template-rows: 48% 52%;
+    border-radius: 1.25rem;
+  }
+
+  .content {
+    padding: 1.2rem 1.35rem 1.45rem;
+  }
+
+  .indexRow {
+    margin-bottom: 0.55rem;
+  }
+
+  .description {
+    margin: 0.55rem 0 0.95rem;
+    font-size: 0.82rem;
+    line-height: 1.85;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .track {
@@ -305,15 +336,16 @@
     gap: 1rem;
     height: auto;
     overflow: visible;
+    border: 0;
     box-shadow: none;
   }
 
   .card {
     position: relative;
     inset: auto;
-    min-height: 340px;
-    transform: none;
-    opacity: 1;
+    min-height: 520px;
+    transform: none !important;
+    opacity: 1 !important;
   }
 
   .artwork,
