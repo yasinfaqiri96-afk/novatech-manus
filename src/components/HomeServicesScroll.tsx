@@ -34,14 +34,9 @@ const services = [
 
 const persianNumbers = ["۰۱", "۰۲", "۰۳"] as const;
 const persianProgress = ["۱ / ۳", "۲ / ۳", "۳ / ۳"] as const;
-
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
-const ease = (t: number) => 1 - Math.pow(1 - t, 3);
 
-/**
- * A horizontal editorial rail: vertical page scroll drives a centered card
- * carousel, with the incoming service approaching from the left in 3D space.
- */
+/** A resilient scroll-driven service rail for desktop, tablet and mobile. */
 export default function HomeServicesScroll() {
   const trackRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -54,60 +49,50 @@ export default function HomeServicesScroll() {
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
-    let visible = false;
 
     const render = () => {
       frame = 0;
 
       if (motionQuery.matches) {
-        cardRefs.current.forEach((card) => {
+        cardRefs.current.forEach((card, index) => {
           if (!card) return;
-          card.style.transform = "";
-          card.style.opacity = "";
-          card.style.pointerEvents = "";
+          card.style.transform = "none";
+          card.style.opacity = index === 0 ? "1" : "1";
+          card.style.pointerEvents = "auto";
+          card.style.zIndex = String(services.length - index);
         });
         return;
       }
 
-      const scrollable = track.offsetHeight - window.innerHeight;
-      const progress =
-        scrollable > 0 ? clamp01(-track.getBoundingClientRect().top / scrollable) : 0;
+      const scrollable = Math.max(track.offsetHeight - window.innerHeight, 1);
+      const progress = clamp01(-track.getBoundingClientRect().top / scrollable);
       const position = progress * (services.length - 1);
-      const travel = stage.clientWidth * 0.92;
+      const travel = Math.max(stage.clientWidth * 0.94, 280);
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
 
         const distance = index - position;
-        const absDistance = Math.abs(distance);
-        const settled = clamp01(absDistance);
-        const scale = 1 - settled * 0.065;
-        const opacity = absDistance > 1.45 ? 0 : 1 - Math.max(0, absDistance - 0.72) * 0.7;
+        const absoluteDistance = Math.abs(distance);
+        const settled = clamp01(absoluteDistance);
         const x = (position - index) * travel;
-        const y = settled * 10;
-        const rotate = distance * -5;
+        const y = settled * 8;
+        const scale = 1 - settled * 0.065;
+        const rotate = distance * -4.5;
+        const opacity =
+          absoluteDistance <= 1 ? 1 - absoluteDistance * 0.72 : absoluteDistance <= 1.75 ? 0.12 : 0;
 
         card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(4)}) rotateY(${rotate.toFixed(2)}deg)`;
         card.style.opacity = opacity.toFixed(4);
-        card.style.zIndex = String(100 - Math.round(absDistance * 10));
-        card.style.pointerEvents = absDistance < 0.58 ? "auto" : "none";
+        card.style.zIndex = String(100 - Math.round(absoluteDistance * 10));
+        card.style.pointerEvents = absoluteDistance < 0.55 ? "auto" : "none";
         card.style.setProperty("--service-image-scale", (1 + (1 - settled) * 0.035).toFixed(4));
       });
     };
 
     const request = () => {
-      if (frame || !visible) return;
-      frame = window.requestAnimationFrame(render);
+      if (!frame) frame = window.requestAnimationFrame(render);
     };
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        visible = entry.isIntersecting;
-        if (visible) request();
-      },
-      { rootMargin: "30% 0px" },
-    );
-    observer.observe(track);
 
     render();
     window.addEventListener("scroll", request, { passive: true });
@@ -115,7 +100,6 @@ export default function HomeServicesScroll() {
     motionQuery.addEventListener("change", render);
 
     return () => {
-      observer.disconnect();
       window.removeEventListener("scroll", request);
       window.removeEventListener("resize", request);
       motionQuery.removeEventListener("change", render);
@@ -124,11 +108,7 @@ export default function HomeServicesScroll() {
   }, []);
 
   return (
-    <section
-      id="home-services"
-      className={styles.section}
-      aria-labelledby="home-services-title"
-    >
+    <section id="home-services" className={styles.section} aria-labelledby="home-services-title">
       <div ref={trackRef} className={styles.track}>
         <div className={styles.sticky}>
           <div className={styles.heading}>
@@ -161,6 +141,11 @@ export default function HomeServicesScroll() {
                   cardRefs.current[index] = element;
                 }}
                 className={`${styles.card} ${styles[`card${index + 1}`]}`}
+                style={{
+                  zIndex: services.length - index,
+                  opacity: index === 0 ? 1 : 0,
+                  transform: index === 0 ? "none" : "translate3d(-100%, 0, 0)",
+                }}
               >
                 <div className={styles.visual}>
                   <Image
@@ -168,7 +153,7 @@ export default function HomeServicesScroll() {
                     alt={service.alt}
                     width={2560}
                     height={1440}
-                    sizes="(min-width: 1024px) 52vw, 100vw"
+                    sizes="(min-width: 1024px) 56vw, 100vw"
                     className={styles.artwork}
                   />
                   <span className={styles.visualEdge} aria-hidden="true" />
