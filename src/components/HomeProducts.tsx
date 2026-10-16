@@ -19,7 +19,7 @@ const products = [
     href: "/oil-and-gas-software",
     cta: "معرفی کامل مشعل",
     demoHref: "/oil-and-gas-software#mashal-demo",
-    image: "/images/mashal/mashal-dashboard-overview.webp",
+    image: "/images/products/mashal-product-visual.webp",
     imageAlt: "داشبورد واقعی نرم افزار مشعل با قراردادها، بارها، موجودی و راپورهای مالی",
     metric: "یک جریان برای تمام عملیات",
     tone: "mashal",
@@ -34,6 +34,7 @@ const products = [
     href: "/accounting-software",
     cta: "آشنایی با ناظر",
     demoHref: "/accounting-software#order",
+    image: "/images/products/nazer-product-visual.webp",
     imageAlt: "نمای مفهومی داشبورد حسابداری و مدیریت مالی ناظر",
     metric: "دید روشن‌تر برای تصمیم‌های روزانه",
     tone: "nazer",
@@ -44,44 +45,6 @@ const productIndexes = ["۰۱", "۰۲"] as const;
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 const ease = (value: number) => 1 - Math.pow(1 - value, 3);
-
-function NazerVisual() {
-  return (
-    <div className={styles.nazerVisual} aria-hidden="true">
-      <div className={styles.nazerGlow} />
-      <div className={styles.nazerBrand}>
-        <span className={styles.nazerName}>ناظر</span>
-        <span className={styles.nazerLatin}>NAZER · FINANCE</span>
-      </div>
-      <div className={styles.nazerDashboard}>
-        <div className={styles.dashboardTop}>
-          <span>خلاصه مالی</span>
-          <span className={styles.dashboardDot} />
-        </div>
-        <div className={styles.dashboardValue}>
-          ۱۲۵,۴۰۰ <small>افغانی</small>
-        </div>
-        <div className={styles.dashboardBars}>
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-        </div>
-        <div className={styles.dashboardFooter}>
-          <span>
-            <b /> دریافت
-          </span>
-          <span>
-            <b /> پرداخت
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function HomeProducts() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -203,18 +166,14 @@ export default function HomeProducts() {
                       <i /> محصول نواتیک
                     </span>
                   </div>
-                  {product.key === "mashal" ? (
-                    <Image
-                      src={product.image}
-                      alt={product.imageAlt}
-                      width={1920}
-                      height={948}
-                      sizes="(min-width: 1024px) 56vw, 92vw"
-                      className={styles.screen}
-                    />
-                  ) : (
-                    <NazerVisual />
-                  )}
+                  <Image
+                    src={product.image}
+                    alt={product.imageAlt}
+                    width={2560}
+                    height={1440}
+                    sizes="(min-width: 1024px) 56vw, 92vw"
+                    className={styles.screen}
+                  />
                   <div className={styles.visualCaption}>
                     <span>{product.metric}</span>
                     <Gauge size={15} aria-hidden="true" />
