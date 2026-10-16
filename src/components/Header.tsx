@@ -87,43 +87,45 @@ export default function Header() {
           />
         </Link>
 
-        <nav
-          className={`${styles.nav} ${open ? styles.open : ""}`}
-          aria-label="منوی اصلی"
-          id="main-navigation"
-        >
-          <div className={styles.mobileBrand}>منوی نواتیک</div>
-          {primaryLinks.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={close}
-              aria-current={path === item.href ? "page" : undefined}
-            >
-              {item.label}
-            </Link>
-          ))}
-          <Link href="/contact" onClick={close} className={styles.mobileContact}>
-            درخواست مشاوره
-          </Link>
-        </nav>
-
-        <div className={styles.actions}>
-          <Link href="/contact" className={styles.cta} onClick={close}>
-            <span>درخواست مشاوره</span>
-            <ArrowUpLeft size={16} aria-hidden="true" />
-          </Link>
-          <button
-            ref={trigger}
-            type="button"
-            className={styles.toggle}
-            onClick={() => setOpen((value) => !value)}
-            aria-label={open ? "بستن منو" : "باز کردن منو"}
-            aria-expanded={open}
-            aria-controls="main-navigation"
+        <div className={styles.leftGroup}>
+          <nav
+            className={`${styles.nav} ${open ? styles.open : ""}`}
+            aria-label="منوی اصلی"
+            id="main-navigation"
           >
-            {open ? <X size={22} /> : <Menu size={22} />}
-          </button>
+            <div className={styles.mobileBrand}>منوی نواتیک</div>
+            {primaryLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={close}
+                aria-current={path === item.href ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            ))}
+            <Link href="/contact" onClick={close} className={styles.mobileContact}>
+              درخواست مشاوره
+            </Link>
+          </nav>
+
+          <div className={styles.actions}>
+            <Link href="/contact" className={styles.cta} onClick={close}>
+              <span>درخواست مشاوره</span>
+              <ArrowUpLeft size={16} aria-hidden="true" />
+            </Link>
+            <button
+              ref={trigger}
+              type="button"
+              className={styles.toggle}
+              onClick={() => setOpen((value) => !value)}
+              aria-label={open ? "بستن منو" : "باز کردن منو"}
+              aria-expanded={open}
+              aria-controls="main-navigation"
+            >
+              {open ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </div>
     </header>
