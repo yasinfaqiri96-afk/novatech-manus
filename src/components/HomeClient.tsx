@@ -301,10 +301,10 @@ export default function HomeClient() {
           </div>
         </div>
       </section>
-      <HomeProducts />
       <ClientLogosSlider />
       <MotionShowcase />
       <HomeServicesScroll />
+      <HomeProducts />
       <div className="sm:px-20 px-4 pt-[50px] lg:pt-[30px] mx-auto px-auto max-w-screen-2xl lg:px-0">
         <div className="lg:grid lg:grid-cols-2">
           <div className="relative">
