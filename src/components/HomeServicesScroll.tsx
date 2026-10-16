@@ -67,13 +67,13 @@ export default function HomeServicesScroll() {
       <div className={styles.shell}>
         <header className={styles.heading}>
           <div className={styles.headingMeta}>
-            <span className={styles.kicker}>CAPABILITIES / ۰۱—۰۳</span>
+            <span className={styles.kicker}>نواتیک / خدمات منتخب</span>
             <span className={styles.headingLine} aria-hidden="true" />
-            <span className={styles.kicker}>NOVATECH</span>
+            <span className={styles.kicker}>۰۱—۰۳</span>
           </div>
           <h2 id="home-services-title" className={styles.title}>
-            <span>راهکارهایی برای</span>
-            <strong>رشد واقعی</strong>
+            <span className="heavy">خدمات</span>
+            <span className="light">ما</span>
           </h2>
           <div className={styles.headingBottom}>
             <Image
