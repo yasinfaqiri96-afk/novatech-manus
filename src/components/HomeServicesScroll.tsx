@@ -34,149 +34,122 @@ const services = [
 
 const persianNumbers = ["۰۱", "۰۲", "۰۳"] as const;
 const persianProgress = ["۱ / ۳", "۲ / ۳", "۳ / ۳"] as const;
-const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
-/** A resilient scroll-driven service rail for desktop, tablet and mobile. */
+/** Stable editorial service rail: every card remains in the document flow. */
 export default function HomeServicesScroll() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
 
   useEffect(() => {
-    const track = trackRef.current;
-    const stage = stageRef.current;
-    if (!track || !stage) return;
+    const section = sectionRef.current;
+    const cards = cardRefs.current.filter(Boolean) as HTMLElement[];
+    if (!section || !cards.length) return;
 
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let frame = 0;
+    cards.forEach((card) => card.classList.add(styles.revealReady));
 
-    const render = () => {
-      frame = 0;
-
-      if (motionQuery.matches) {
-        cardRefs.current.forEach((card, index) => {
-          if (!card) return;
-          card.style.transform = "none";
-          card.style.opacity = index === 0 ? "1" : "1";
-          card.style.pointerEvents = "auto";
-          card.style.zIndex = String(services.length - index);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(styles.visible);
+            observer.unobserve(entry.target);
+          }
         });
-        return;
-      }
+      },
+      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+    );
 
-      const scrollable = Math.max(track.offsetHeight - window.innerHeight, 1);
-      const progress = clamp01(-track.getBoundingClientRect().top / scrollable);
-      const position = progress * (services.length - 1);
-      const travel = Math.max(stage.clientWidth * 0.94, 280);
+    cards.forEach((card) => observer.observe(card));
 
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
-
-        const distance = index - position;
-        const absoluteDistance = Math.abs(distance);
-        const settled = clamp01(absoluteDistance);
-        const x = (position - index) * travel;
-        const y = settled * 8;
-        const scale = 1 - settled * 0.065;
-        const rotate = distance * -4.5;
-        const opacity =
-          absoluteDistance <= 1 ? 1 - absoluteDistance * 0.72 : absoluteDistance <= 1.75 ? 0.12 : 0;
-
-        card.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${scale.toFixed(4)}) rotateY(${rotate.toFixed(2)}deg)`;
-        card.style.opacity = opacity.toFixed(4);
-        card.style.zIndex = String(100 - Math.round(absoluteDistance * 10));
-        card.style.pointerEvents = absoluteDistance < 0.55 ? "auto" : "none";
-        card.style.setProperty("--service-image-scale", (1 + (1 - settled) * 0.035).toFixed(4));
-      });
+    const updateProgress = () => {
+      const rect = section.getBoundingClientRect();
+      const range = Math.max(section.offsetHeight - window.innerHeight, 1);
+      const progress = Math.min(1, Math.max(0, -rect.top / range));
+      section.style.setProperty("--services-progress", progress.toFixed(4));
     };
 
-    const request = () => {
-      if (!frame) frame = window.requestAnimationFrame(render);
-    };
-
-    render();
-    window.addEventListener("scroll", request, { passive: true });
-    window.addEventListener("resize", request, { passive: true });
-    motionQuery.addEventListener("change", render);
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", request);
-      window.removeEventListener("resize", request);
-      motionQuery.removeEventListener("change", render);
-      if (frame) window.cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
     };
   }, []);
 
   return (
-    <section id="home-services" className={styles.section} aria-labelledby="home-services-title">
-      <div ref={trackRef} className={styles.track}>
-        <div className={styles.sticky}>
-          <div className={styles.heading}>
-            <p className={styles.kicker}>NOVATECH / SELECTED SERVICES</p>
-            <h2 id="home-services-title" className={styles.title}>
-              <span className="heavy">خدمات</span> <span className="light">ما</span>
-            </h2>
-            <Image
-              alt=""
-              aria-hidden="true"
-              width={129}
-              height={19}
-              className={styles.signature}
-              src="/images/signature.jpg"
-            />
-            <p className={styles.intro}>
-              هر خدمت برای یک نیاز مشخص کسب و کار ساخته شده است؛ از وب سایت و دیتابس تا هویت بصری
-              برند.
-            </p>
-            <span className={styles.scrollCue} aria-hidden="true">
-              <span /> برای دیدن راهکارها اسکرول کنید
-            </span>
-          </div>
+    <section
+      ref={sectionRef}
+      id="home-services"
+      className={styles.section}
+      aria-labelledby="home-services-title"
+    >
+      <div className={styles.shell}>
+        <header className={styles.heading}>
+          <p className={styles.kicker}>NOVATECH / SELECTED SERVICES</p>
+          <h2 id="home-services-title" className={styles.title}>
+            <span className="heavy">خدمات</span> <span className="light">ما</span>
+          </h2>
+          <Image
+            alt=""
+            aria-hidden="true"
+            width={129}
+            height={19}
+            className={styles.signature}
+            src="/images/signature.jpg"
+          />
+          <p className={styles.intro}>
+            هر خدمت برای یک نیاز مشخص کسب و کار ساخته شده است؛ از وب سایت و دیتابس تا هویت بصری
+            برند.
+          </p>
+          <span className={styles.scrollCue} aria-hidden="true">
+            <span /> سه راهکار، یک مسیر رشد
+          </span>
+        </header>
 
-          <div ref={stageRef} className={styles.stage}>
-            {services.map((service, index) => (
-              <article
-                key={service.href}
-                ref={(element) => {
-                  cardRefs.current[index] = element;
-                }}
-                className={`${styles.card} ${styles[`card${index + 1}`]}`}
-                style={{
-                  zIndex: services.length - index,
-                  opacity: index === 0 ? 1 : 0,
-                  transform: index === 0 ? "none" : "translate3d(-100%, 0, 0)",
-                }}
-              >
-                <div className={styles.visual}>
-                  <Image
-                    src={service.image}
-                    alt={service.alt}
-                    width={2560}
-                    height={1440}
-                    sizes="(min-width: 1024px) 56vw, 100vw"
-                    className={styles.artwork}
-                  />
-                  <span className={styles.visualEdge} aria-hidden="true" />
-                </div>
+        <div className={styles.rail} aria-hidden="true">
+          <span className={styles.railFill} />
+        </div>
 
-                <div className={styles.content}>
-                  <p className={styles.indexRow} aria-hidden="true">
-                    <span className={styles.index}>{persianNumbers[index]}</span>
-                    <span className={styles.progress}>{persianProgress[index]}</span>
-                  </p>
-                  <p className={styles.eyebrow}>راهکارهای نواتیک</p>
-                  <h3 className={styles.serviceTitle}>{service.title}</h3>
-                  <p className={styles.description}>{service.description}</p>
-                  <Link className={styles.action} href={service.href}>
-                    <span>مشاهده خدمت</span>
-                    <span className={styles.arrow} aria-hidden="true">
-                      ←
-                    </span>
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div className={styles.cards}>
+          {services.map((service, index) => (
+            <article
+              key={service.href}
+              ref={(element) => {
+                cardRefs.current[index] = element;
+              }}
+              className={`${styles.card} ${styles[`card${index + 1}`]}`}
+            >
+              <div className={styles.visual}>
+                <Image
+                  src={service.image}
+                  alt={service.alt}
+                  width={2560}
+                  height={1440}
+                  sizes="(min-width: 1024px) 56vw, 100vw"
+                  className={styles.artwork}
+                />
+              </div>
+
+              <div className={styles.content}>
+                <p className={styles.indexRow} aria-hidden="true">
+                  <span className={styles.index}>{persianNumbers[index]}</span>
+                  <span className={styles.progress}>{persianProgress[index]}</span>
+                </p>
+                <p className={styles.eyebrow}>راهکارهای نواتیک</p>
+                <h3 className={styles.serviceTitle}>{service.title}</h3>
+                <p className={styles.description}>{service.description}</p>
+                <Link className={styles.action} href={service.href}>
+                  <span>مشاهده خدمت</span>
+                  <span className={styles.arrow} aria-hidden="true">
+                    ←
+                  </span>
+                </Link>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
