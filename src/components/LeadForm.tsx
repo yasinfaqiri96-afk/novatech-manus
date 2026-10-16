@@ -109,7 +109,6 @@ export default function LeadForm({ source, className, id, children }: LeadFormPr
       ref={formRef}
       className={className}
       onSubmit={handleSubmit}
-      noValidate
       aria-describedby={statusId}
       aria-busy={status.kind === "sending"}
       data-pending={status.kind === "sending" ? "true" : undefined}

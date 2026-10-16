@@ -159,7 +159,7 @@ export default function ContactPage() {
           </div>
 
           <div className="flex flex-col gap-[32px] sm:mx-[20px] md:mx-[50px] xl:mx-[130px] md:gap-[28px] md:grid md:grid-cols-2 mb-[60px] md:mb-0">
-            <LeadForm source="contact-page" className="flex flex-col gap-[20px] md:grid md:grid-cols-6 md:grid-rows-6">
+            <LeadForm source="contact-page" className="flex flex-col gap-[20px] md:grid md:grid-cols-6 md:grid-rows-8">
               <div className="flex gap-2 justify-between items-center border-2 rounded-md md:row-span-1 md:col-span-3 h-[50px] pl-[13px]">
                 <input
                   id="contact-name"
@@ -189,7 +189,36 @@ export default function ContactPage() {
                 <svg aria-hidden="true" stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><g><path d="M16.73,2.065H7.27a2.386,2.386,0,0,0-2.24,2.5v14.87a2.386,2.386,0,0,0,2.24,2.5h9.46a2.386,2.386,0,0,0,2.24-2.5V4.565A2.386,2.386,0,0,0,16.73,2.065Zm1.24,17.37a1.391,1.391,0,0,1-1.24,1.5H7.27a1.391,1.391,0,0,1-1.24-1.5V4.565a1.391,1.391,0,0,1,1.24-1.5H8.8v.51a1,1,0,0,0,1,1h4.4a1,1,0,0,0,1-1v-.51h1.53a1.391,1.391,0,0,1,1.24,1.5Z"></path><path d="M10,18.934h4a.5.5,0,0,0,0-1H10a.5.5,0,0,0,0,1Z"></path></g></g></svg>
               </div>
 
-              <div className="flex md:col-span-6 md:row-span-3">
+              <div className="flex gap-2 justify-between items-center border-2 rounded-md md:row-span-1 md:col-span-3 h-[50px] pl-[13px]">
+                <input
+                  id="contact-company"
+                  name="company"
+                  type="text"
+                  autoComplete="organization"
+                  aria-label="نام شرکت یا کسب و کار"
+                  placeholder="نام شرکت یا کسب و کار"
+                  className="px-[15px] w-full medium h-full outline-none"
+                />
+              </div>
+
+              <div className="flex gap-2 justify-between items-center border-2 rounded-md md:row-span-1 md:col-span-3 h-[50px] pl-[13px]">
+                <select
+                  id="contact-activity"
+                  name="activity"
+                  aria-label="نوع نیاز شما"
+                  defaultValue=""
+                  className="px-[15px] w-full medium h-full outline-none bg-transparent"
+                >
+                  <option value="" disabled>نوع نیاز شما</option>
+                  <option value="نرم افزار اختصاصی">نرم افزار اختصاصی</option>
+                  <option value="حسابداری و مدیریت مالی">حسابداری و مدیریت مالی</option>
+                  <option value="دیتابیس و انتقال اطلاعات">دیتابیس و انتقال اطلاعات</option>
+                  <option value="طراحی سایت">طراحی سایت</option>
+                  <option value="مشاوره اولیه">مشاوره اولیه</option>
+                </select>
+              </div>
+
+              <div className="flex md:col-span-6 md:row-start-5 md:row-span-3">
                 <textarea
                   id="contact-message"
                   name="message"
@@ -201,7 +230,7 @@ export default function ContactPage() {
 
               <button
                 type="submit"
-                className="flex md:col-start-1 mr-2 md:w-[152px] md:col-end-3 md:row-start-5 md:row-end-6 items-center justify-between bg-[#54dcc6] hover:bg-[#45bba7] duration-300 text-white rounded-[50px]"
+                className="flex md:col-start-1 mr-2 md:w-[152px] md:col-end-3 md:row-start-8 md:row-end-9 items-center justify-between bg-[#54dcc6] hover:bg-[#45bba7] duration-300 text-white rounded-[50px]"
               >
                 <span className="medium pr-[16px] flex lg:text-[14px]">ارسال پیام</span>
                 <div className="p-2">

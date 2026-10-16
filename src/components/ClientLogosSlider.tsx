@@ -79,7 +79,7 @@ export default function ClientLogosSlider() {
                 >
                   <Image
                     src={logo.src}
-                    alt={idx < clientLogos.length && logo.name ? `لوگوی ${logo.name}` : ""}
+                    alt={idx < clientLogos.length ? `لوگوی ${logo.name ?? "یکی از مشتریان نواتیک"}` : ""}
                     width={176}
                     height={176}
                     sizes="176px"

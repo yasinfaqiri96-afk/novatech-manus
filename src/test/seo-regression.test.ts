@@ -6,6 +6,7 @@ import { metaToHead } from "@/lib/next-head";
 import { siteUrl } from "@/lib/site-content";
 import { notFound } from "@/shims/next-navigation";
 import { softwareSolutionsFaq } from "@/legacy/fa/software-solutions/faq-items";
+import { redirectToCanonicalHost } from "@/server";
 
 function contentOf(
   entries: Array<{ name?: string; property?: string; content?: string }>,
@@ -27,9 +28,15 @@ describe("SEO metadata regressions", () => {
     ]);
     expect(contentOf(head.meta, "property", "og:url")).toBe(`${siteUrl}/`);
     expect(contentOf(head.meta, "property", "og:site_name")).toBeTruthy();
-    expect(contentOf(head.meta, "property", "og:title")).toBe(contentOf(head.meta, "name", "twitter:title"));
-    expect(contentOf(head.meta, "property", "og:description")).toBe(contentOf(head.meta, "name", "twitter:description"));
-    expect(contentOf(head.meta, "property", "og:image")).toBe(contentOf(head.meta, "name", "twitter:image"));
+    expect(contentOf(head.meta, "property", "og:title")).toBe(
+      contentOf(head.meta, "name", "twitter:title"),
+    );
+    expect(contentOf(head.meta, "property", "og:description")).toBe(
+      contentOf(head.meta, "name", "twitter:description"),
+    );
+    expect(contentOf(head.meta, "property", "og:image")).toBe(
+      contentOf(head.meta, "name", "twitter:image"),
+    );
   });
 
   it("omits canonical and og:url while preserving noindex on an unknown detail page", () => {
@@ -63,5 +70,17 @@ describe("SEO metadata regressions", () => {
   it("does not publish an unverified fixed installation-time promise", () => {
     expect(softwareSolutionsFaq[1].answer).not.toMatch(/کمتر از یک هفته|در کمتر از یک هفته/);
     expect(softwareSolutionsFaq[1].answer).toContain("نیازسنجی");
+  });
+
+  it("redirects the www host while preserving path and query parameters", () => {
+    const response = redirectToCanonicalHost(
+      new Request("https://www.novatechsoft.com/contact?source=campaign"),
+    );
+
+    expect(response?.status).toBe(301);
+    expect(response?.headers.get("location")).toBe(
+      "https://novatechsoft.com/contact?source=campaign",
+    );
+    expect(redirectToCanonicalHost(new Request("https://novatechsoft.com/"))).toBeNull();
   });
 });

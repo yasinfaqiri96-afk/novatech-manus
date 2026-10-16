@@ -11,8 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "images:responsive": "python scripts/generate-responsive-images.py",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "vitest run --config vite.config.ts",
+    "test:watch": "vitest --config vite.config.ts",
   },
   "overrides": {
     "rolldown": "1.2.1"

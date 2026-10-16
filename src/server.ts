@@ -9,6 +9,20 @@ type ServerEntry = {
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
 
+const CANONICAL_HOST = "novatechsoft.com";
+
+/** Keep one host in search engines and preserve the full path/query string. */
+export function redirectToCanonicalHost(request: Request): Response | null {
+  const url = new URL(request.url);
+  if (url.hostname !== `www.${CANONICAL_HOST}`) return null;
+
+  url.hostname = CANONICAL_HOST;
+  return new Response(null, {
+    status: 301,
+    headers: { location: url.toString() },
+  });
+}
+
 async function getServerEntry(): Promise<ServerEntry> {
   if (!serverEntryPromise) {
     serverEntryPromise = import("@tanstack/react-start/server-entry").then(
@@ -47,6 +61,9 @@ function isH3SwallowedErrorBody(body: string): boolean {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const canonicalRedirect = redirectToCanonicalHost(request);
+      if (canonicalRedirect) return canonicalRedirect;
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
