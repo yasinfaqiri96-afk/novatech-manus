@@ -1,7 +1,6 @@
 // @ts-nocheck -- ported from the original Next.js site
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpLeft, MoveLeft } from "lucide-react";
 import styles from "./HomeHero.module.css";
@@ -11,14 +10,18 @@ export default function HomeHero() {
     <section className={styles.hero} aria-labelledby="home-hero-title">
       <div className={styles.shell}>
         <div className={styles.frame}>
-          <Image
-            src="/images/novatech-hero-editorial.webp"
-            alt="تصویر مفهومی از فناوری، داده و راهکارهای دیجیتال نواتیک"
-            fill
-            priority
-            sizes="(max-width: 700px) calc(100vw - 28px), 1280px"
-            className={styles.image}
-          />
+          <video
+            className={styles.video}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/images/novatech-hero-editorial.webp"
+            aria-hidden="true"
+          >
+            <source src="/videos/novatech-hero-loop.mp4" type="video/mp4" />
+          </video>
           <div className={styles.tint} aria-hidden="true" />
           <div className={styles.copy}>
             <span className={styles.kicker}>استودیو نرم‌افزار و تکنالوژی نواتیک</span>
