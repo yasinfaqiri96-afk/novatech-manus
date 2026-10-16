@@ -117,8 +117,10 @@ Widthهای ساخته‌شده: داشبورد `480/960/1440`؛ تیم `320/640
 
 ## وضعیت Git و انتشار
 
-- هیچ commit، stage، push یا deploy انجام نشده است.
-- `git -C` گزارش داد ریشهٔ Git در پوشهٔ والد `F:\novatech update seo` است و پروژهٔ سایت در وضعیت untracked (`?? ../`) دیده می‌شود؛ بنابراین پیش از stage/commit باید ریشهٔ مخزن بررسی شود تا فقط پروژهٔ مورد نظر ثبت شود.
+- سورس پروژه در مخزن [novatech-manus](https://github.com/yasinfaqiri96-afk/novatech-manus)، شاخهٔ `main`، منتشر شد. commit اولیهٔ کامل: `f86274c572ef65a7a7631e8ff3fc885327d8bf2f`. hash شاخهٔ remote پس از push با commit محلی تطبیق داده شد.
+- پوشهٔ محلی `site-sync-master-main` اکنون ریشهٔ مستقل Git با remote همین مخزن است و پس از اتصال، وضعیت working tree پاک تأیید شد.
+- به‌دلیل اینکه فایل‌های محیطی و secret نباید عمومی شوند، الگوهای `.env` به `.gitignore` افزوده شد. `node_modules`، خروجی build، پوشهٔ دستورالعمل محلی `AGENTS.md` و عکس‌های بی‌ارجاع WhatsApp در `New folder/` وارد مخزن نشدند.
+- هیچ deployای انجام نشده است. GitHub connector در Manus غیرفعال بود؛ انتشار با Git و دسترسی محلی انجام شد.
 - اتصال Google Search Console و داده‌های عملکرد/جست‌وجو همچنان برای مرحلهٔ بعد لازم است.
 
 
