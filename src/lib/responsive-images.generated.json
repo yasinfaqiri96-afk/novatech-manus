@@ -1,0 +1,42 @@
+{
+  "/images/portfolio/novatech-management-dashboard.png": {
+    "width": 1902,
+    "height": 949,
+    "srcSet": "/images/portfolio/novatech-management-dashboard-480w.webp 480w, /images/portfolio/novatech-management-dashboard-960w.webp 960w, /images/portfolio/novatech-management-dashboard-1440w.webp 1440w, /images/portfolio/novatech-management-dashboard.png 1902w"
+  },
+  "/images/portfolio/novatech-team.webp": {
+    "width": 4096,
+    "height": 4096,
+    "srcSet": "/images/portfolio/novatech-team-320w.webp 320w, /images/portfolio/novatech-team-640w.webp 640w, /images/portfolio/novatech-team-960w.webp 960w, /images/portfolio/novatech-team-1324w.webp 1324w, /images/portfolio/novatech-team.webp 4096w"
+  },
+  "/images/portfolio/ariana-desktop.jpg": {
+    "width": 1905,
+    "height": 7164,
+    "srcSet": "/images/portfolio/ariana-desktop-480w.webp 480w, /images/portfolio/ariana-desktop-960w.webp 960w, /images/portfolio/ariana-desktop-1440w.webp 1440w, /images/portfolio/ariana-desktop.jpg 1905w"
+  },
+  "/images/portfolio/ariana-mobile.jpg": {
+    "width": 375,
+    "height": 6310,
+    "srcSet": "/images/portfolio/ariana-mobile-320w.webp 320w, /images/portfolio/ariana-mobile.jpg 375w"
+  },
+  "/images/portfolio/noor-desktop.jpg": {
+    "width": 1600,
+    "height": 7018,
+    "srcSet": "/images/portfolio/noor-desktop-480w.webp 480w, /images/portfolio/noor-desktop-960w.webp 960w, /images/portfolio/noor-desktop-1440w.webp 1440w, /images/portfolio/noor-desktop.jpg 1600w"
+  },
+  "/images/portfolio/noor-mobile.jpg": {
+    "width": 390,
+    "height": 10965,
+    "srcSet": "/images/portfolio/noor-mobile-320w.webp 320w, /images/portfolio/noor-mobile.jpg 390w"
+  },
+  "/images/portfolio/lepetit-desktop.jpg": {
+    "width": 1600,
+    "height": 4882,
+    "srcSet": "/images/portfolio/lepetit-desktop-480w.webp 480w, /images/portfolio/lepetit-desktop-960w.webp 960w, /images/portfolio/lepetit-desktop-1440w.webp 1440w, /images/portfolio/lepetit-desktop.jpg 1600w"
+  },
+  "/images/portfolio/lepetit-mobile.jpg": {
+    "width": 390,
+    "height": 5145,
+    "srcSet": "/images/portfolio/lepetit-mobile-320w.webp 320w, /images/portfolio/lepetit-mobile.jpg 390w"
+  }
+}

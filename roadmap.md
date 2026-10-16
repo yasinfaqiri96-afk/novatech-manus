@@ -1,0 +1,3 @@
+- [x] Measure reference pages and audit typography across all content pages.
+- [x] Unify mismatched font faces, heading proportions and reading spacing without redesigning reference pages.
+- [x] Verify desktop/mobile text, images, overflow and navigation.

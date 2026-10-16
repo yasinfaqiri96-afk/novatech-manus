@@ -1,0 +1,137 @@
+/* Weighted family prevents faux bold when modules request a numerical weight.
+   The original reference pages keep their existing named font faces. */
+@font-face {
+  font-family: NovatechText;
+  src: url('/fonts/IRANYekanXFaNum-Light.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: NovatechText;
+  src: url('/fonts/IRANYekanXFaNum-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: NovatechText;
+  src: url('/fonts/IRANYekanXFaNum-Medium.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: NovatechText;
+  src: url('/fonts/IRANYekanXFaNum-Bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: NovatechText;
+  src: url('/fonts/IRANYekanXFaNum-ExtraBlack.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 800 900;
+  font-display: swap;
+}
+
+:root {
+  --site-font-reading: NovatechText, IranYekanRegular, sans-serif;
+  --site-title-size: 40px;
+  --site-section-size: 30px;
+  --site-subtitle-size: 18px;
+  --site-copy-size: 16px;
+  --site-caption-size: 14px;
+  --site-copy-leading: 2;
+  --site-title-leading: 1.6;
+  --site-copy-gap: 16px;
+  --site-caption-gap: 8px;
+}
+
+#main-content[data-typography='harmonized'] {
+  --font-iranyekan-next: NovatechText;
+  font-family: var(--site-font-reading);
+  font-synthesis: none;
+}
+
+/* Scope is SSR-derived, so these rules apply before the first paint and on
+   client navigation. Header, footer and the three reference pages are untouched. */
+#main-content[data-typography='harmonized'] :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,summary,input,textarea,select,button,label,a,strong,b,.light,.regular,.medium,.bold,.heavy,.fat,[class*='font-iranyekan']):is(:lang(fa),:lang(ps)) {
+  font-family: var(--site-font-reading) !important;
+  letter-spacing: 0 !important;
+}
+#main-content[data-typography='harmonized'] :is(h1,h2,h3,h4,h5,h6) {
+  letter-spacing: 0 !important;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+#main-content[data-typography='harmonized'] h1 {
+  font-size: var(--site-title-size) !important;
+  font-weight: 900 !important;
+  line-height: var(--site-title-leading) !important;
+  max-width: 30ch;
+}
+#main-content[data-typography='harmonized'] h2 {
+  font-size: var(--site-section-size) !important;
+  font-weight: 900 !important;
+  line-height: var(--site-title-leading) !important;
+}
+#main-content[data-typography='harmonized'] h3 {
+  font-size: var(--site-subtitle-size) !important;
+  font-weight: 700 !important;
+  line-height: 1.75 !important;
+}
+#main-content[data-typography='harmonized'] p {
+  font-size: var(--site-copy-size) !important;
+  font-weight: 400 !important;
+  line-height: var(--site-copy-leading) !important;
+  overflow-wrap: break-word;
+}
+#main-content[data-typography='harmonized'] p + p {
+  margin-block-start: var(--site-copy-gap);
+}
+#main-content[data-typography='harmonized'] :is(h1,h2) + p {
+  margin-block-start: var(--site-copy-gap);
+}
+#main-content[data-typography='harmonized'] h3 + p {
+  margin-block-start: var(--site-caption-gap);
+}
+/* Compact repeated items follow Portfolio's 16px title / 14px body hierarchy,
+   rather than enlarging every label to the size of narrative paragraphs. */
+#main-content[data-typography='harmonized'] :is([class*='postCard'],[class*='groupCard'],[class*='intentCard'],[class*='moduleCard'],[class*='featureCard'],[class*='relatedBody']) :is(h2,h3) {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1.75 !important;
+}
+#main-content[data-typography='harmonized'] :is([class*='postCard'],[class*='groupCard'],[class*='intentCard'],[class*='moduleCard'],[class*='featureCard'],[class*='relatedBody']) p,
+#main-content[data-typography='harmonized'] p:is([class*='note'],[class*='Note'],[class*='hint'],[class*='Hint'],[class*='meta'],[class*='Meta']),
+#main-content[data-typography='harmonized'] [class*='helper'] {
+  font-size: var(--site-caption-size) !important;
+  line-height: 2 !important;
+}
+#main-content[data-typography='harmonized'] :is(.text-justify,[class*='intro'],[class*='Intro']) :is(h1,h2,h3) {
+  text-align: start;
+}
+#main-content[data-typography='harmonized'] :is(h1,h2,h3).text-justify {
+  text-align: start !important;
+}
+#main-content[data-typography='harmonized'] p:is(.text-xs,.text-sm) {
+  font-size: var(--site-caption-size) !important;
+  line-height: 1.8 !important;
+}
+#main-content[data-typography='harmonized'] :is([class*='prose'],[class*='intro'],[class*='Intro']) p {
+  text-align: start;
+}
+#main-content[data-typography='harmonized'] :is(.bold,strong,b):not(:is(h1,h2,h3,p)) { font-weight: 700 !important; }
+#main-content[data-typography='harmonized'] .medium { font-weight: 500 !important; }
+#main-content[data-typography='harmonized'] :is(.heavy,.fat):not(:is(h1,h2,h3,p)) { font-weight: 900 !important; }
+#main-content[data-typography='harmonized'] .light { font-weight: 300 !important; }
+
+@media (max-width: 767px) {
+  #main-content[data-typography='harmonized'] {
+    --site-title-size: 30px;
+    --site-section-size: 26px;
+    --site-subtitle-size: 18px;
+  }
+}
